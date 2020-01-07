@@ -33,6 +33,7 @@ import android.webkit.GeolocationPermissions;
 import android.webkit.PermissionRequest;
 import android.webkit.WebChromeClient;
 import android.webkit.WebResourceRequest;
+import android.webkit.WebResourceResponse;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -41,6 +42,8 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.PopupMenu;
 import android.widget.TextView;
+
+import androidx.annotation.Nullable;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -69,13 +72,9 @@ public class WebViewBrowserActivity extends Activity implements PopupMenu.OnMenu
     // WebKit permissions with no corresponding Android permission can always be granted
     private static final String NO_ANDROID_PERMISSION = "NO_ANDROID_PERMISSION";
 
-    private static final String[] BLACK_LIST = {
-            "www.facebook.com",
-            "www.pinterest.com",
-            "www.instagram.com",
-            "twitter.com",
-            "www.youtube.com"
-    };
+    private static String js = "javascript:document.getElementsByClassName(\"footer-socials\")[0].setAttribute(\"style\",\"display:none;\");";
+
+
 
     // Map from WebKit permissions to Android permissions
     private static final HashMap<String, String> sPermissions;
@@ -208,6 +207,7 @@ public class WebViewBrowserActivity extends Activity implements PopupMenu.OnMenu
         mBack = findViewById(R.id.back);
         mForward = findViewById(R.id.forward);
 
+        findViewById(R.id.url_bar).setVisibility(View.GONE);
 //        CarUxRestrictionsUtil.getInstance(getApplicationContext()).register(mOnUxRestrictionsChangedListener);
     }
 
@@ -234,7 +234,7 @@ public class WebViewBrowserActivity extends Activity implements PopupMenu.OnMenu
     }
 
     private void createAndInitializeWebView() {
-        WebView webview = new WebView(this);
+        final WebView webview = new WebView(this);
         WebSettings settings = webview.getSettings();
         initializeSettings(settings);
 
@@ -254,6 +254,8 @@ public class WebViewBrowserActivity extends Activity implements PopupMenu.OnMenu
 
             @Override
             public void onPageFinished(WebView view, String url) {
+                Log.d(TAG, "load js" + js);
+                view.loadUrl(js);
                 setUrlBarText(url);
             }
 
@@ -269,8 +271,6 @@ public class WebViewBrowserActivity extends Activity implements PopupMenu.OnMenu
                 boolean allowLaunchingApps = request.hasGesture() || request.isRedirect();
                 return startBrowsingIntent(WebViewBrowserActivity.this, url, allowLaunchingApps);
             }
-
-
 
             @Override
             public void onReceivedError(WebView view, int errorCode, String description,

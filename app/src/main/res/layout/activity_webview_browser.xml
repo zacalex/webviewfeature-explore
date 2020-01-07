@@ -39,20 +39,20 @@
             android:onClick="goBack" />
         <ImageButton
             android:id="@+id/forward"
-            android:layout_width="wrap_content" 
-            android:layout_height="match_parent" 
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
             android:src="@drawable/baseline_keyboard_arrow_right_black_18dp"
             android:contentDescription="@string/forward"
             android:onClick="goForward" />
         <ImageButton
-            android:layout_width="wrap_content" 
-            android:layout_height="match_parent" 
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
             android:src="@drawable/baseline_refresh_black_18dp"
             android:contentDescription="@string/refresh"
             android:onClick="loadUrlFromUrlBar" />
         <ImageButton
-            android:layout_width="wrap_content" 
-            android:layout_height="match_parent" 
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
             android:src="@drawable/item_more_black"
             android:contentDescription="@string/menu_about"
             android:onClick="showPopup" />
